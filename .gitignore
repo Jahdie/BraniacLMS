@@ -140,8 +140,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-.dmypy.js' %}on
-dmypy.js' %}on
+.dmypy.json
+dmypy.json
 
 # Pyre type checker
 .pyre/
@@ -159,10 +159,10 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 .vscode/*
-!.vscode/settings.js' %}on
-!.vscode/tasks.js' %}on
-!.vscode/launch.js' %}on
-!.vscode/extensions.js' %}on
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 !.vscode/*.code-snippets
 
 # Local History for Visual Studio Code
