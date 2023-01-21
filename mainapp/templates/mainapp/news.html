@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="ru">
 
@@ -7,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="static css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
     <!-- ChartJS -->
-    <link rel="stylesheet" href="static css/Chart.min.css">
+    <link rel="stylesheet" href="{% static 'css/Chart.min.css' %}">
 
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="static css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.all.min.css' %}">
 
     <title>Новости проекта</title>
 </head>
@@ -24,7 +25,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="{% url 'mainapp:index' %}">
                 <img src="{% static 'img/logo.png' %}" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -35,10 +36,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="news.html">Новости</a>
+                        <a class="nav-link" href="{% url 'mainapp:news' %}">>Новости</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="courses_list.html">Курсы</a>
+                        <a class="nav-link" href="{% url 'mainapp:courses' %}">Курсы</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="ddProfile" role="button" data-toggle="dropdown"
@@ -56,7 +57,7 @@
                         </div>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="contacts.html">Контакты</a>
+                        <a class="nav-link" href="{% url 'mainapp:contacts' %}">Контакты</a>
                     </li>
                 </ul>
                 <span><a href="#">🇷🇺</a> <i class="fas fa-grip-lines-vertical"></i> <a href="#">🇬🇧</a></span>
@@ -182,8 +183,8 @@
                 </p>
                 <p>
                 <ul class="list-unstyled">
-                    <li><a href="index.html">Домашняя</a></li>
-                    <li><a href="news.html">Новости</a></li>
+                    <li><a href="{% url 'mainapp:index' %}">Домашняя</a></li>
+                    <li><a href="{% url 'mainapp:news' %}">>Новости</a></li>
                     <li><a href="login.html">Войти</a></li>
                 </ul>
                 </p>
