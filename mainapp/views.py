@@ -1,4 +1,8 @@
+from datetime import datetime
+
+from balaboba import Balaboba
 from django.views.generic import TemplateView
+
 
 
 class MainPageView(TemplateView):
@@ -7,6 +11,20 @@ class MainPageView(TemplateView):
 
 class NewsPageView(TemplateView):
     template_name = "mainapp/news.html"
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        bb = Balaboba()
+        intros = bb.intros("ru")
+        news = [bb.balaboba("Новость", intro=intro.number) for intro in intros]
+        context = {
+            "news_cards": [
+                {"header": " ".join(new.split()[0:3]) + "...", "news": new, "date": datetime.now()} for new in news
+            ]
+        }
+        print(context)
+        return context
 
 
 class CoursesPageView(TemplateView):
@@ -23,3 +41,12 @@ class DocSitePageView(TemplateView):
 
 class LoginPageView(TemplateView):
     template_name = "mainapp/login.html"
+
+
+
+class NewsWithPaginatorView(NewsPageView):
+    def get_context_data(self, page, **kwargs):
+        context = super().get_context_data(page=page, **kwargs)
+        context["page_num"] = page
+        return context
+
