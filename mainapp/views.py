@@ -1,7 +1,7 @@
-from datetime import datetime
-
-from balaboba import Balaboba
+from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+
+from mainapp import models as mainapp_models
 
 
 class MainPageView(TemplateView):
@@ -12,21 +12,41 @@ class NewsPageView(TemplateView):
     template_name = "mainapp/news.html"
 
     def get_context_data(self, **kwargs):
+        # Get all previous data
         context = super().get_context_data(**kwargs)
-        bb = Balaboba()
-        intros = bb.intros("ru")
-        news = [bb.balaboba("Новость", intro=intro.number) for intro in intros]
-        context = {
-            "news_cards": [
-                {"header": " ".join(new.split()[0:3]) + "...", "news": new, "date": datetime.now()} for new in news
-            ]
-        }
-        print(context)
+        # Create your own data
+        context["news_qs"] = mainapp_models.News.objects.all()[:5]
         return context
 
 
-class CoursesPageView(TemplateView):
+class NewsPageDetailView(TemplateView):
+    template_name = "mainapp/news_detail.html"
+
+    def get_context_data(self, pk=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["news_object"] = get_object_or_404(mainapp_models.News, pk=pk)
+        return context
+
+
+class CoursesListView(TemplateView):
     template_name = "mainapp/courses_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["objects"] = mainapp_models.Courses.objects.all()[:7]
+        print(context["objects"])
+        return context
+
+
+class CoursesDetailView(TemplateView):
+    template_name = "mainapp/courses_detail.html"
+
+    def get_context_data(self, pk=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["course_object"] = get_object_or_404(mainapp_models.Courses, pk=pk)
+        context["lessons"] = mainapp_models.Lesson.objects.filter(course=context["course_object"])
+        context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
+        return context
 
 
 class ContactsPageView(TemplateView):
@@ -39,10 +59,3 @@ class DocSitePageView(TemplateView):
 
 class LoginPageView(TemplateView):
     template_name = "mainapp/login.html"
-
-
-class NewsWithPaginatorView(NewsPageView):
-    def get_context_data(self, page, **kwargs):
-        context = super().get_context_data(page=page, **kwargs)
-        context["page_num"] = page
-        return context
