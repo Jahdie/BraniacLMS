@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "markdownify.apps.MarkdownifyConfig",
     "mainapp",
+    "authapp",
 ]
 
 MIDDLEWARE = [
@@ -62,6 +63,7 @@ TEMPLATES = [
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
+                "django.template.context_processors.media",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -85,6 +87,9 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+AUTH_USER_MODEL = "authapp.CustomUser"
+LOGIN_REDIRECT_URL = "mainapp:main_page"
+LOGOUT_REDIRECT_URL = "mainapp:main_page"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -129,3 +134,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = BASE_DIR / "media"
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
