@@ -23,8 +23,20 @@ class News(BaseModelAbstract):
     def __str__(self) -> str:
         return f"{self.pk} {self.title}"
 
+    class Meta:
+        verbose_name = _("News")
+        verbose_name_plural = _("News")
+        ordering = ("-created",)
+
+
+class CoursesManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
+
 
 class Courses(BaseModelAbstract):
+    objects = CoursesManager()
+
     name = models.CharField(max_length=256, verbose_name="Name")
     description = models.TextField(verbose_name="Description", blank=True, null=True)
     description_as_markdown = models.BooleanField(verbose_name="As markdown", default=False)
@@ -47,6 +59,8 @@ class Lesson(BaseModelAbstract):
 
     class Meta:
         ordering = ("course", "num")
+        verbose_name = _("Lesson")
+        verbose_name_plural = _("Lessons")
 
 
 class CourseTeachers(BaseModelAbstract):
@@ -57,3 +71,7 @@ class CourseTeachers(BaseModelAbstract):
 
     def __str__(self) -> str:
         return "{0:0>3} {1} {2}".format(self.pk, self.name_second, self.name_first)
+
+    class Meta:
+        verbose_name = _("Teacher")
+        verbose_name_plural = _("Teachers")
