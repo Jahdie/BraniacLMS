@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+if DEBUG:
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
 
 # Application definition
 
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     "mainapp",
     "authapp",
     "crispy_forms",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -51,9 +56,21 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
 ROOT_URLCONF = "config.urls"
+
 
 TEMPLATES = [
     {
@@ -150,9 +167,7 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "console": {
-            "format": "[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s"
-        },
+        "console": {"format": "[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s"},
     },
     "handlers": {
         "file": {
